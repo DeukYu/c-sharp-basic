@@ -1,38 +1,85 @@
 ﻿using System;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+namespace CSharp // Note: actual namespace depends on the project name.
 {
-    internal class Program
+    class Program
     {
-        static void Main(string[] args)
+        enum ClassType
         {
-            Random rand = new Random();
-            int aiChoice = rand.Next(0, 3);
+            None = 0,
+            Knight=1,
+            Archar=2,
+            Mage=3,
+        }
 
-            int choice = Convert.ToInt32(Console.ReadLine());
+        struct Player
+        {
+            public int hp;
+            public int attack;
+        }
 
-            switch (choice)
+        static ClassType ChooseClass()
+        {
+            Console.WriteLine("직업을 선택하세요!");
+            Console.WriteLine("[1]궁수");
+            Console.WriteLine("[2]궁수");
+            Console.WriteLine("[3]법사");
+
+            string input = Console.ReadLine();
+            ClassType choice = ClassType.None;
+            switch (input)
             {
-                case 0:
-                    Console.WriteLine("컴퓨터의 선택은 가위입니다. ");
+                case "1":
+                    choice = ClassType.Knight;
                     break;
-                case 1:
-                    Console.WriteLine("컴퓨터의 선택은 바위입니다. ");
+                case "2":
+                    choice = ClassType.Archar;
                     break;
-                case 2:
-                    Console.WriteLine("컴퓨터의 선택은 보입니다. ");
+                case "3":
+                    choice = ClassType.Mage;
                     break;
             }
+            return choice;
+        }
 
-            // 승리 무승부 패배
-            if (choice == aiChoice)
-                Console.WriteLine("무승부");
-            else
+        static void CreatePlayer(ClassType choice, out Player player)
+        {
+            // 기사(100/10) 궁수(75/12 법사(50/15)
+            switch (choice)
             {
-                if ((aiChoice == 0 && choice == 1) || (aiChoice == 1 && choice == 2) || (aiChoice == 2 && choice == 0))
-                    Console.WriteLine("승리");
-                else
-                    Console.WriteLine("패배");
+                case ClassType.Knight:
+                    player.hp = 100;
+                    player.attack = 10;
+                    break;
+                case ClassType.Archar:
+                    player.hp = 75;
+                    player.attack = 12;
+                    break;
+                case ClassType.Mage:
+                    player.hp = 50;
+                    player.attack = 15;
+                    break;
+                default:
+                    player.hp = 0;
+                    player.attack = 0;
+                    break;
+            }
+        }
+        static void Main(string[] args)
+        {       
+            while (true)
+            {
+                ClassType choice = ClassType.None;
+                choice = ChooseClass();
+                if (choice != ClassType.None)
+                {
+                    // 캐릭터 생성
+                    Player player;
+                    CreatePlayer(choice, out player);
+
+                    Console.WriteLine($"HP{player.hp} Attack{player.attack}");
+                    // 필드로 가서 몬스터와 싸운다.
+                }
             }
         }
     }
