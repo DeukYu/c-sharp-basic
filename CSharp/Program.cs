@@ -18,6 +18,19 @@ namespace CSharp // Note: actual namespace depends on the project name.
             public int attack;
         }
 
+        enum MonsterType
+        { 
+            None = 0,
+            Slime = 1,
+            Orc =2,
+            Skeleton = 3,
+        }
+        struct Monster
+        {
+            public int hp;
+            public int attack;
+        }
+
         static ClassType ChooseClass()
         {
             Console.WriteLine("직업을 선택하세요!");
@@ -65,21 +78,123 @@ namespace CSharp // Note: actual namespace depends on the project name.
                     break;
             }
         }
+
+        static void CreateRandomMonster(out Monster monster)
+        { 
+            Random rand = new Random();
+            int randMonster = rand.Next(1, 4);
+            switch (randMonster)
+            {
+                case (int)MonsterType.Slime:
+                    Console.WriteLine("슬라임이 스폰되었습니다.");
+                    monster.hp = 20;
+                    monster.attack = 2;
+                    break;
+                case (int)MonsterType.Orc:
+                    Console.WriteLine("오크가 스폰되었습니다.");
+                    monster.hp = 40;
+                    monster.attack = 4;
+                    break;
+                case (int)MonsterType.Skeleton:
+                    Console.WriteLine("스켈레톤이 스폰되었습니다.");
+                    monster.hp = 30;
+                    monster.attack = 3;         
+                    break;
+                default:
+                    monster.hp = 0;
+                    monster.attack = 0;
+                    break;
+            }
+        }
+
+        static void Fight(ref Player player, ref Monster monster)
+        {
+            while (true)
+            {
+                monster.hp -= player.attack;
+                if(monster.hp <= 0)
+                {
+                    Console.WriteLine("승리했습니다.");
+                    Console.WriteLine($"남은 체력 : {player.hp}");
+                    break;
+                }
+
+                player.hp -= monster.attack;
+                if (player.hp <= 0)
+                {
+                    Console.WriteLine("패배했습니다.");
+                    break;
+                }
+            }
+        }
+
+        static void EnterField(ref Player player)
+        {
+            while (true)
+            {
+                Console.WriteLine("필드에 접속했습니다.");
+
+                Monster monster;
+                CreateRandomMonster(out monster);
+
+                Console.WriteLine("[1] 전투 모드로 진입");
+                Console.WriteLine("[2] 일정 확률로 마을로 도망");
+
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    Fight(ref player, ref monster);
+                }
+                else if (input == "2")
+                {
+                    // 33%
+                    Random rand = new Random();
+                    int randValue = rand.Next(0, 101);
+                    if (randValue <= 33)
+                    {
+                        Console.WriteLine("도망치는데 성공했습니다.");
+                        break;
+                    }
+                    else
+                    {
+                        Fight(ref player, ref monster);
+                    }
+                }
+            }
+        }
+        static void EnterGame(ref Player player)
+        {
+            while (true)
+            {
+                Console.WriteLine("마을에 접속했습니다!");
+                Console.WriteLine("[1] 필드로 간다.");
+                Console.WriteLine("[2] 로비로 돌아간다.");
+
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    EnterField(ref player);
+                }
+                else if (input == "2")
+                {
+                    break;
+                }
+            }       
+        }
         static void Main(string[] args)
-        {       
+        {
             while (true)
             {
                 ClassType choice = ClassType.None;
                 choice = ChooseClass();
-                if (choice != ClassType.None)
-                {
-                    // 캐릭터 생성
-                    Player player;
-                    CreatePlayer(choice, out player);
+                if (choice == ClassType.None)
+                    continue;
 
-                    Console.WriteLine($"HP{player.hp} Attack{player.attack}");
-                    // 필드로 가서 몬스터와 싸운다.
-                }
+                // 캐릭터 생성
+                Player player;
+                CreatePlayer(choice, out player);
+
+                EnterGame(ref player);
             }
         }
     }
