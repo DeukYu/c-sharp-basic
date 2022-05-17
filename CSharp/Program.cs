@@ -1,53 +1,27 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CSharp // Note: actual namespace depends on the project name.
 {
     class Program
     {
-        class Knight
-        {
-            public int hp;
-            public int attack;
-
-            public void Move()
-            {
-                Console.WriteLine("Knight Move");
-            }
-
-            public void Attack()
-            {
-                Console.WriteLine("Knight Attack");
-            }
-
-        }
-
-        struct Mage
-        {
-            public int hp;
-            public int attack;
-        }
-
-        static void KillMage(Mage mage)
-        {
-            mage.hp = 0;
-        }
-
-        static void KillKnight(Knight knight)
-        {
-            knight.hp = 0;
-        }
         static void Main(string[] args)
         {
-            Mage mage;
-            mage.hp = 100;
-            mage.attack = 50;
-            KillMage(mage);
+            string name = "Harry Potter";
+            // 1. 찾기
+            bool found = name.Contains("Harry");
+            int index = name.IndexOf('z');
+            // 2. 변형
+            name = name + " Junior";
+            string lowerCaseName = name.ToLower();
+            string upperCaseName = name.ToUpper();
+            string newName = name.Replace('r', 'l');
 
-            Knight knight = new Knight();
-
-            knight.hp = 100;
-            knight.attack = 10;
-            KillKnight(knight); 
+            // 3. 분할
+            string[] names = name.Split(new char[] {' '});
+            string substrName = name.Substring(5);
         }
     }
 }
