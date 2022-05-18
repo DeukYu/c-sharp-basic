@@ -26,15 +26,15 @@ namespace CSharp
 
     class Slime : Monster
     {
-        public Slime()  :base(MonsterType.Slime) { SetInfo(10, 1); }
+        public Slime()  :base(MonsterType.Slime) { SetInfo(10, 10); }
     }
 
     class Orc : Monster
     {
-        public Orc() :base(MonsterType.Orc) { SetInfo(20, 2); }
+        public Orc() :base(MonsterType.Orc) { SetInfo(20, 15); }
     }
     class Skelton : Monster
     {
-        public  Skelton() :base(MonsterType.Skelton) { SetInfo(15, 5); }    
+        public  Skelton() :base(MonsterType.Skelton) { SetInfo(15, 25); }    
     }
 }

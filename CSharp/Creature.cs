@@ -29,7 +29,7 @@ namespace CSharp
         public int GetHp() { return hp; }
         public int GetAttack() { return attack; }
 
-        public bool IsDead() { return hp < 0; }
+        public bool IsDead() { return hp <= 0; }
         public void OnDamaged(int damage)
         {
             hp -= damage;

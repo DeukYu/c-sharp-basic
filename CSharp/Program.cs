@@ -6,11 +6,12 @@ namespace CSharp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
-            Player player = new Knight();
-            Monster monster = new Orc();
+            Game game = new Game();
 
-            int damage = player.GetAttack();
-            monster.OnDamaged(damage);
+            while(true)
+            {
+                game.Process();
+            }
         }
     }
 }
