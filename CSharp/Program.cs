@@ -4,39 +4,20 @@ namespace CSharp // Note: actual namespace depends on the project name.
 {
     class Program
     {
-        class Map
+        static void OnInputTest()
         {
-            int[,] titles =
-            {
-                {1, 1,1,1, 1 },
-                {1, 0,0,0, 1 },
-                {1, 0,0,0, 1 },
-                {1, 0,0,0, 1 },
-                {1, 1,1,1, 1 }
-            };
-
-            public void Render()
-            {
-                ConsoleColor defaultColor = Console.ForegroundColor;
-                for(int i = 0; i < titles.GetLength(1); i++)
-                {
-                    for(int j = 0; j < titles.GetLength(0); j++)
-                    {
-                        if (titles[j, i] == 1)
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        else
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write('\u25cf');
-                    }
-                    Console.WriteLine();
-                }
-                Console.ForegroundColor = defaultColor;
-            }
+            Console.WriteLine("Input Received!");
         }
         static void Main(string[] args)
         {
-            Map map = new Map();
-            map.Render();
+            InputManager inputManager = new InputManager();
+
+            inputManager.InputKey += OnInputTest;
+
+            while(true)
+            {
+                inputManager.Update();
+            }
         }
     }
 }
